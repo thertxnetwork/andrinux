@@ -188,6 +188,29 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
      */
     @SafeVarargs
     public final void load(@NonNull KeyType key, @NonNull ViewType view, @NonNull ParamType... params) {
+        loadInternal(key, view, false, params);
+    }
+
+    /**
+     * Loads data for a key and binds it to a view.
+     *
+     * @param key       The key
+     * @param view      The view
+     * @param forceLoad Whether to force loading even if cached
+     * @param params    The parameters
+     */
+    @SafeVarargs
+    public final void load(@NonNull KeyType key, @NonNull ViewType view, boolean forceLoad, 
+                          @NonNull ParamType... params) {
+        loadInternal(key, view, forceLoad, params);
+    }
+
+    /**
+     * Internal load implementation.
+     */
+    @SafeVarargs
+    private final void loadInternal(@NonNull KeyType key, @NonNull ViewType view, boolean forceLoad,
+                                    @NonNull ParamType... params) {
         canceled = false;
 
         // Notify listener
@@ -195,14 +218,16 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
             return;
         }
         
-        // Check cache first
-        DataType cachedData = cache.get(key);
-        if (cachedData != null) {
-            onPostExecuteInternal(view, cachedData, params);
-            if (listener != null) {
-                listener.onFinished(this, key, cachedData, view, params);
+        // Check cache first (unless forcing)
+        if (!forceLoad) {
+            DataType cachedData = cache.get(key);
+            if (cachedData != null) {
+                onPostExecuteInternal(view, cachedData, params);
+                if (listener != null) {
+                    listener.onFinished(this, key, cachedData, view, params);
+                }
+                return;
             }
-            return;
         }
 
         // Pre-execute on main thread
