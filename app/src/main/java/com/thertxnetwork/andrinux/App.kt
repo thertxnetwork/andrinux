@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.thertxnetwork.andrinux.component.NeoInitializer
 import com.thertxnetwork.andrinux.component.config.NeoPreference
+import com.thertxnetwork.andrinux.component.config.NeoTermPath
 import com.thertxnetwork.andrinux.ui.other.BonusActivity
 import com.thertxnetwork.andrinux.utils.CrashHandler
 
@@ -19,10 +20,20 @@ import com.thertxnetwork.andrinux.utils.CrashHandler
 class App : Application() {
   override fun onCreate() {
     super.onCreate()
+    
+    // Initialize crash handler FIRST before anything else
     app = this
-    NeoPreference.init(this)
     CrashHandler.init()
-    NeoInitializer.init(this)
+    
+    try {
+      // Initialize paths with actual context
+      NeoTermPath.init(this)
+      NeoPreference.init(this)
+      NeoInitializer.init(this)
+    } catch (e: Exception) {
+      // If initialization fails, let the crash handler catch it
+      throw RuntimeException("Failed to initialize app", e)
+    }
   }
 
   fun errorDialog(context: Context, message: Int, dismissCallback: (() -> Unit)?) {

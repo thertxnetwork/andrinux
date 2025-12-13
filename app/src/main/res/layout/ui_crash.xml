@@ -12,11 +12,13 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+    app:title="@string/error"/>
 
   <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
     android:layout_margin="@dimen/text_margin"
     android:orientation="vertical">
 
@@ -45,18 +47,58 @@
 
     <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="0dp"
+      android:layout_weight="1">
 
       <TextView
         android:id="@+id/crash_details"
-        style="@style/TextAppearance.AppCompat.Medium"
+        style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/text_margin"
         android:layout_marginStart="@dimen/text_margin"
+        android:fontFamily="monospace"
         android:gravity="start|top"
-        android:textColor="@color/textColor"/>
+        android:textColor="@color/textColor"
+        android:textIsSelectable="true"/>
     </ScrollView>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/text_margin"
+    android:gravity="center">
+
+    <Button
+      android:id="@+id/crash_copy_button"
+      style="@style/Widget.Material3.Button.TonalButton"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginEnd="4dp"
+      android:text="@string/crash_copy"/>
+
+    <Button
+      android:id="@+id/crash_share_button"
+      style="@style/Widget.Material3.Button.TonalButton"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginStart="4dp"
+      android:layout_marginEnd="4dp"
+      android:text="@string/crash_share"/>
+
+    <Button
+      android:id="@+id/crash_restart_button"
+      style="@style/Widget.Material3.Button"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_marginStart="4dp"
+      android:text="@string/crash_restart"/>
 
   </LinearLayout>
 
