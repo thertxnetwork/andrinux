@@ -64,6 +64,12 @@ android {
             path file('src/main/cpp/Android.mk')
         }
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -71,11 +77,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    archiveClassifier = "sources"
 }
 
 afterEvaluate {
@@ -87,7 +88,6 @@ afterEvaluate {
                 groupId = 'com.thertxnetwork.andrinux'
                 artifactId = 'andrinux-shared'
                 version = '0.118.0'
-                artifact(sourceJar)
             }
         }
     }

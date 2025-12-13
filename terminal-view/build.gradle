@@ -27,15 +27,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
     testImplementation "junit:junit:4.13.2"
-}
-
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    archiveClassifier = "sources"
 }
 
 afterEvaluate {
@@ -47,7 +48,6 @@ afterEvaluate {
                 groupId = 'com.thertxnetwork.andrinux'
                 artifactId = 'terminal-view'
                 version = '0.118.0'
-                artifact(sourceJar)
             }
         }
     }
