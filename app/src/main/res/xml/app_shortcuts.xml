@@ -8,7 +8,7 @@
     tools:targetApi="n_mr1">
     <intent
       android:action="android.intent.action.RUN"
-      android:targetPackage="io.neoterm"
-      android:targetClass="io.neoterm.ui.term.NeoTermActivity"/>
+      android:targetPackage="com.thertxnetwork.andrinux"
+      android:targetClass="com.thertxnetwork.andrinux.ui.term.NeoTermActivity"/>
   </shortcut>
 </shortcuts>
