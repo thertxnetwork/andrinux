@@ -38,8 +38,8 @@ object CrashHandler : Thread.UncaughtExceptionHandler {
         }
         context.startActivity(intent)
         
-        // Give the activity time to start
-        Thread.sleep(500)
+        // Give the activity a moment to start (reduced from 500ms)
+        Thread.sleep(100)
       } catch (ex: Exception) {
         Log.e(TAG, "Failed to start CrashActivity", ex)
         ex.printStackTrace()

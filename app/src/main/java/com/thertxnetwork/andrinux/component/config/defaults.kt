@@ -33,7 +33,9 @@ object NeoTermPath {
   }
   
   val ROOT_PATH: String
-    get() = rootPath ?: "/data/data/com.thertxnetwork.andrinux/files"
+    get() = rootPath ?: throw IllegalStateException(
+      "NeoTermPath.init() must be called before accessing paths"
+    )
     
   val USR_PATH: String
     get() = "$ROOT_PATH/usr"
