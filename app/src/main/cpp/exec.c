@@ -7,12 +7,12 @@
 #include <fcntl.h>
 
 static const char *rewrite_executable(const char *filename, char *buffer, int buffer_len) {
-    strcpy(buffer, "/data/data/io.neoterm/files/usr/bin/");
+    strcpy(buffer, "/data/data/com.thertxnetwork.andrinux/files/usr/bin/");
     char *bin_match = strstr(filename, "/bin/");
     if (bin_match == filename || bin_match == (filename + 4)) {
         // We have either found "/bin/" at the start of the string or at
         // "/xxx/bin/". Take the path after that.
-        strncpy(buffer + 36, bin_match + 5, (size_t) (buffer_len - 37));
+        strncpy(buffer + 52, bin_match + 5, (size_t) (buffer_len - 53));
         filename = buffer;
     }
     return filename;

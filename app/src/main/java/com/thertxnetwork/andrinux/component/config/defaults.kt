@@ -32,7 +32,6 @@ object NeoTermPath {
     rootPath = context.filesDir.absolutePath
   }
   
-  @SuppressLint("SdCardPath")
   val ROOT_PATH: String
     get() = rootPath ?: "/data/data/com.thertxnetwork.andrinux/files"
     
