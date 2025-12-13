@@ -1,4 +1,4 @@
-package io.neoterm;
+package com.thertxnetwork.andrinux;
 
 /**
  * @author kiva

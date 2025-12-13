@@ -1,4 +1,4 @@
-package io.neoterm;
+package com.thertxnetwork.andrinux;
 
 import com.thertxnetwork.andrinux.xorg.NeoXorgViewClient;
 

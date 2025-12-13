@@ -109,9 +109,6 @@ dependencies {
     // EventBus
     implementation 'org.greenrobot:eventbus:3.3.1'
     
-    // Adapter utilities
-    implementation 'com.github.nicbell:ModularAdapter:0.2.0'
-    
     // Fast scroll for RecyclerView
     implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.1'
     
