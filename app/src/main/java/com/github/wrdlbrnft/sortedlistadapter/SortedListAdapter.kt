@@ -19,6 +19,7 @@ abstract class SortedListAdapter<T : SortedListAdapter.ViewModel>(
 ) : RecyclerView.Adapter<SortedListAdapter.ViewHolder<out T>>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var callback: Callback? = null
 
     private val sortedListCallback = object : SortedListAdapterCallback<T>(this) {
         override fun compare(a: T, b: T): Int = comparator.compare(a, b)
@@ -53,6 +54,24 @@ abstract class SortedListAdapter<T : SortedListAdapter.ViewModel>(
     fun getItem(position: Int): T = sortedList[position]
 
     fun edit(): Editor<T> = EditorImpl()
+
+    fun addCallback(callback: Callback) {
+        this.callback = callback
+    }
+
+    fun removeCallback(callback: Callback) {
+        if (this.callback == callback) {
+            this.callback = null
+        }
+    }
+
+    /**
+     * Callback interface for edit events.
+     */
+    interface Callback {
+        fun onEditStarted()
+        fun onEditFinished()
+    }
 
     /**
      * Interface for view models that can be compared for identity and content equality.
@@ -119,6 +138,7 @@ abstract class SortedListAdapter<T : SortedListAdapter.ViewModel>(
         }
 
         override fun commit() {
+            callback?.onEditStarted()
             sortedList.beginBatchedUpdates()
             try {
                 if (removeAll) {
@@ -139,6 +159,36 @@ abstract class SortedListAdapter<T : SortedListAdapter.ViewModel>(
                 }
             } finally {
                 sortedList.endBatchedUpdates()
+            }
+            callback?.onEditFinished()
+        }
+    }
+
+    /**
+     * Builder for creating comparators.
+     */
+    class ComparatorBuilder<T : ViewModel> {
+        private val comparators = mutableListOf<Comparator<T>>()
+
+        @Suppress("UNCHECKED_CAST")
+        fun <M : T> setOrderForModel(clazz: Class<M>, comparator: (M, M) -> Int): ComparatorBuilder<T> {
+            comparators.add(Comparator { a, b ->
+                if (clazz.isInstance(a) && clazz.isInstance(b)) {
+                    comparator(a as M, b as M)
+                } else {
+                    0
+                }
+            })
+            return this
+        }
+
+        fun build(): Comparator<T> {
+            return Comparator { a, b ->
+                for (comp in comparators) {
+                    val result = comp.compare(a, b)
+                    if (result != 0) return@Comparator result
+                }
+                0
             }
         }
     }

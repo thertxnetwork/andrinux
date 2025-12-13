@@ -13,9 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
-import es.dmoral.coloromatic.ColorOMaticDialog
-import es.dmoral.coloromatic.IndicatorMode
-import es.dmoral.coloromatic.colormode.ColorMode
 import com.thertxnetwork.andrinux.R
 import com.thertxnetwork.andrinux.backend.TerminalColors
 import com.thertxnetwork.andrinux.component.ComponentManager
@@ -67,8 +64,8 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
     return true
   }
 
-  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    when (item?.itemId) {
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    when (item.itemId) {
       android.R.id.home -> finish()
       R.id.action_done -> applyColorScheme(editingColorScheme)
     }
@@ -108,6 +105,7 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
           if (color != 0) {
             edit.setTextColor(color)
           } else {
+            @Suppress("DEPRECATION")
             edit.setTextColor(resources.getColor(R.color.textColor))
           }
         }
@@ -134,19 +132,7 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
       .setView(view)
       .setNegativeButton(android.R.string.no, null)
       .setPositiveButton(android.R.string.yes) { _, _ ->
-        applyColor(edit.text.toString());
-      }
-      .setNeutralButton(R.string.select_new_value) { _, _ ->
-        ColorOMaticDialog.Builder()
-          .initialColor(TerminalColors.parse(model.colorValue))
-          .colorMode(ColorMode.RGB)
-          .indicatorMode(IndicatorMode.HEX)
-          .onColorSelected { newColor ->
-            applyColor("#${Integer.toHexString(newColor).substring(2)}")
-          }
-          .showColorIndicator(true)
-          .create()
-          .show(supportFragmentManager, "ColorOMaticDialog")
+        applyColor(edit.text.toString())
       }
       .show()
   }

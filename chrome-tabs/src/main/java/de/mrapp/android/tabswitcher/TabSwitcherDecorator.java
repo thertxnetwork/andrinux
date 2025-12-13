@@ -99,6 +99,20 @@ public abstract class TabSwitcherDecorator extends AbstractViewHolderAdapter {
   }
 
   /**
+   * Finds a view by ID in the current parent view.
+   *
+   * @param id The ID of the view to find
+   * @param <T> The type of view to return
+   * @return The view if found, null otherwise
+   */
+  @SuppressWarnings("unchecked")
+  @Nullable
+  public <T extends View> T findViewById(int id) {
+    View parent = getCurrentParentView();
+    return parent != null ? (T) parent.findViewById(id) : null;
+  }
+
+  /**
    * Returns the view type, which corresponds to a specific tab. For each layout, which is
    * inflated by the <code>onInflateView</code>-method, a distinct view type must be
    * returned.

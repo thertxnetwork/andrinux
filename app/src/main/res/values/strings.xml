@@ -59,6 +59,7 @@
   <string name="retry">Retry</string>
   <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
   <string name="done">Done</string>
+  <string name="yes">Yes</string>
   <string name="install">Install</string>
   <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome
     Page: %s

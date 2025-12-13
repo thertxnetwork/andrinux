@@ -13,6 +13,10 @@
   <color name="popup_split_background">#efefef</color>
   <color name="list_download_item_color_dark">#363636</color>
   
+  <!-- Tab colors -->
+  <color name="tab_background_color">#455A64</color>
+  <color name="tab_title_text_color">#FFFFFF</color>
+  
   <!-- Material Design 3 Color Scheme - Light Theme -->
   <color name="md_theme_primary">#4A5E70</color>
   <color name="md_theme_onPrimary">#FFFFFF</color>
