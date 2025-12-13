@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    api 'com.github.michael-rapp:android-util:2.1.1'
+    api 'com.github.michael-rapp:android-util:2.1.0'
     implementation rootProject.ext.deps["annotations"]
     implementation rootProject.ext.deps["material"]
     testImplementation rootProject.ext.deps["junit"]
