@@ -25,6 +25,7 @@ object DefaultValues {
 }
 
 object NeoTermPath {
+  @Volatile
   private var rootPath: String? = null
   
   fun init(context: Context) {

@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.thertxnetwork.andrinux.R
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
-import java.io.Serializable
 
 /**
  * @author kiva
