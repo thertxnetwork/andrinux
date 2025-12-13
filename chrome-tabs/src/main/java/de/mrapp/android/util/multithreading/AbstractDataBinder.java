@@ -36,12 +36,11 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
          *
          * @param dataBinder The data binder
          * @param key        The key
-         * @param view       The view
          * @param params     The parameters
          * @return True to proceed with loading, false to cancel
          */
         boolean onLoadData(@NonNull AbstractDataBinder<DataType, KeyType, ViewType, ParamType> dataBinder,
-                          @NonNull KeyType key, @NonNull ViewType view, @NonNull ParamType... params);
+                          @NonNull KeyType key, @NonNull ParamType... params);
 
         /**
          * Called when data has been loaded and bound.
@@ -192,7 +191,7 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
         canceled = false;
 
         // Notify listener
-        if (listener != null && !listener.onLoadData(this, key, view, params)) {
+        if (listener != null && !listener.onLoadData(this, key, params)) {
             return;
         }
         

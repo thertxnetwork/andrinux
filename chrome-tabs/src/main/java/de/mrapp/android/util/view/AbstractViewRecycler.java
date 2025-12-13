@@ -70,6 +70,36 @@ public abstract class AbstractViewRecycler<ItemType, ParamType> {
         }
 
         /**
+         * Called when a view is removed with item context.
+         *
+         * @param view The view
+         * @param item The item
+         */
+        public void onRemoveView(@NonNull View view, @NonNull ItemType item) {
+            // Default calls the single-arg version
+            onRemoveView(view);
+        }
+
+        /**
+         * Gets the number of view types.
+         *
+         * @return The number of view types
+         */
+        public int getViewTypeCount() {
+            return 1;
+        }
+
+        /**
+         * Gets the view type for an item.
+         *
+         * @param item The item
+         * @return The view type
+         */
+        public int getViewType(@NonNull ItemType item) {
+            return 0;
+        }
+
+        /**
          * Called to save the state of a view.
          *
          * @param view The view

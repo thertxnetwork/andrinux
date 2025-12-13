@@ -49,6 +49,21 @@ public class AttachedViewRecycler<ItemType, ParamType> extends ViewRecycler<Item
     }
 
     /**
+     * Creates a new attached view recycler with parent, inflater, and comparator.
+     *
+     * @param parent     The parent view group
+     * @param inflater   The layout inflater
+     * @param comparator The comparator for ordering items
+     */
+    public AttachedViewRecycler(@NonNull ViewGroup parent, @NonNull LayoutInflater inflater,
+                                @Nullable Comparator<ItemType> comparator) {
+        super(inflater.getContext());
+        this.parent = parent;
+        this.comparator = comparator;
+        this.logLevel = LogLevel.OFF;
+    }
+
+    /**
      * Sets the comparator for ordering items.
      *
      * @param comparator The comparator
