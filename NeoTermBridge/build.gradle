@@ -1,0 +1,38 @@
+plugins {
+    id 'com.android.library'
+}
+
+def libraryVersionCode = 2
+def libraryVersionName = "2.0"
+
+android {
+    namespace 'com.thertxnetwork.andrinux.bridge'
+    compileSdk rootProject.ext.android.COMPILE_SDK_VERSION
+
+    defaultConfig {
+        minSdk rootProject.ext.android.MIN_SDK_VERSION
+        targetSdk rootProject.ext.android.TARGET_SDK_VERSION
+        versionCode libraryVersionCode
+        versionName libraryVersionName
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.annotation:annotation:1.7.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation rootProject.ext.deps["junit"]
+}

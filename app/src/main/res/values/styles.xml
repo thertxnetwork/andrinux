@@ -1,0 +1,93 @@
+<resources>
+
+  <!-- Base application theme using Material Design 3 -->
+  <style name="Theme.Andrinux" parent="Theme.Material3.DayNight.DarkActionBar">
+    <item name="colorPrimary">@color/md_theme_primary</item>
+    <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+    <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
+    <item name="colorOnPrimaryContainer">@color/md_theme_onPrimaryContainer</item>
+    <item name="colorSecondary">@color/md_theme_secondary</item>
+    <item name="colorOnSecondary">@color/md_theme_onSecondary</item>
+    <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+    <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>
+    <item name="colorTertiary">@color/md_theme_tertiary</item>
+    <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
+    <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
+    <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+    <item name="colorError">@color/md_theme_error</item>
+    <item name="colorOnError">@color/md_theme_onError</item>
+    <item name="colorErrorContainer">@color/md_theme_errorContainer</item>
+    <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer</item>
+    <item name="android:colorBackground">@color/md_theme_background</item>
+    <item name="colorOnBackground">@color/md_theme_onBackground</item>
+    <item name="colorSurface">@color/md_theme_surface</item>
+    <item name="colorOnSurface">@color/md_theme_onSurface</item>
+    <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant</item>
+    <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
+    <item name="colorOutline">@color/md_theme_outline</item>
+    <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
+    <item name="colorSurfaceInverse">@color/md_theme_inverseSurface</item>
+    <item name="colorOnSurfaceInverse">@color/md_theme_inverseOnSurface</item>
+    <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
+    <item name="windowActionModeOverlay">true</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@color/md_theme_surface</item>
+    <item name="android:windowLightStatusBar">true</item>
+    <item name="android:windowLightNavigationBar">true</item>
+  </style>
+
+  <style name="Theme.Andrinux.NoActionBar" parent="Theme.Andrinux">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
+
+  <style name="Theme.Andrinux.AppBarOverlay" parent="ThemeOverlay.Material3.ActionBar"/>
+
+  <style name="Theme.Andrinux.PopupOverlay" parent="ThemeOverlay.Material3.Light"/>
+
+  <!-- Legacy theme names for compatibility -->
+  <style name="AppTheme" parent="Theme.Andrinux"/>
+  <style name="AppTheme.Dark" parent="Theme.Andrinux"/>
+  <style name="AppTheme.NoActionBar" parent="Theme.Andrinux.NoActionBar"/>
+  <style name="AppTheme.NoActionBar.Dark" parent="Theme.Andrinux.NoActionBar"/>
+  <style name="AppTheme.AppBarOverlay" parent="Theme.Andrinux.AppBarOverlay"/>
+  <style name="AppTheme.PopupOverlay" parent="Theme.Andrinux.PopupOverlay"/>
+
+  <style name="rtl_RecyclerTabLayout">
+    <item name="rtl_tabMinWidth">72dp</item>
+    <item name="rtl_tabMaxWidth">264dp</item>
+    <item name="rtl_tabIndicatorColor">?attr/colorPrimary</item>
+    <item name="rtl_tabIndicatorHeight">2dp</item>
+    <item name="rtl_tabPaddingStart">12dp</item>
+    <item name="rtl_tabPaddingEnd">12dp</item>
+    <item name="rtl_tabBackground">?attr/selectableItemBackground</item>
+    <item name="rtl_tabTextAppearance">@style/rtl_RecyclerTabLayout.Tab</item>
+    <item name="rtl_tabSelectedTextColor">?android:textColorPrimary</item>
+  </style>
+
+  <style name="rtl_RecyclerTabLayout.Tab">
+    <item name="android:textSize">14sp</item>
+    <item name="android:textColor">?android:textColorSecondary</item>
+    <item name="textAllCaps">true</item>
+  </style>
+
+  <!-- Material Design 3 Button Styles -->
+  <style name="Widget.Andrinux.Button" parent="Widget.Material3.Button">
+    <item name="cornerRadius">16dp</item>
+  </style>
+
+  <style name="Widget.Andrinux.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+    <item name="cornerRadius">16dp</item>
+  </style>
+
+  <style name="Widget.Andrinux.Button.Text" parent="Widget.Material3.Button.TextButton">
+    <item name="cornerRadius">16dp</item>
+  </style>
+
+  <!-- Material Design 3 Card Style -->
+  <style name="Widget.Andrinux.CardView" parent="Widget.Material3.CardView.Filled">
+    <item name="cardCornerRadius">16dp</item>
+    <item name="cardElevation">0dp</item>
+  </style>
+
+</resources>
