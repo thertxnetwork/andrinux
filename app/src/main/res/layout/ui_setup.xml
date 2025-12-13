@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="32dp"
@@ -14,21 +15,23 @@
     android:layout_marginTop="26dp"
     android:gravity="center"
     android:text="@string/setup_info"
-    android:textColor="@color/colorAccent"
-    android:textSize="32sp"/>
+    android:textColor="?attr/colorPrimary"
+    android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"/>
 
   <TextView
     android:id="@+id/select_method_tip_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@id/setup_title_text"
+    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
     android:text="@string/setup_setup_method"/>
 
-  <Button
+  <com.google.android.material.button.MaterialButton
     android:id="@+id/setup_next"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
+    app:cornerRadius="16dp"
     android:text="@string/setup_next"/>
 
   <LinearLayout
@@ -44,19 +47,19 @@
       android:layout_height="wrap_content"
       android:checkedButton="@id/setup_method_online">
 
-      <RadioButton
+      <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/setup_method_online"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/setup_online"/>
 
-      <RadioButton
+      <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/setup_method_local"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/setup_local"/>
 
-      <RadioButton
+      <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/setup_method_backup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,6 +72,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
+      android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
       android:text="@string/setup_source_parameter"/>
 
     <LinearLayout
@@ -76,21 +80,29 @@
       android:layout_height="wrap_content"
       android:orientation="horizontal">
 
-      <EditText
-        android:id="@+id/setup_source_parameter"
+      <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.0"
-        android:focusable="false"
-        android:clickable="false"
-        android:hint="@string/setup_hint_online"
-        android:text="@string/default_source_url"/>
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-      <Button
+        <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/setup_source_parameter"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:focusable="false"
+          android:clickable="false"
+          android:hint="@string/setup_hint_online"
+          android:text="@string/default_source_url"/>
+
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <com.google.android.material.button.MaterialButton
         android:id="@+id/setup_source_parameter_select"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
+        android:layout_gravity="center_vertical"
+        style="@style/Widget.Material3.Button.TonalButton"
         android:text="@string/setup_dots"/>
 
     </LinearLayout>
@@ -103,7 +115,8 @@
       <TextView
         android:id="@+id/setup_log_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
     </ScrollView>
 
   </LinearLayout>

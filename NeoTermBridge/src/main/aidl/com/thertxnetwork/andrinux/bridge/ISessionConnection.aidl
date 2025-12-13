@@ -1,5 +1,5 @@
 // ISessionConnection.aidl
-package io.neoterm.bridge;
+package com.thertxnetwork.andrinux.bridge;
 
 // Declare any non-default types here with import statements
 

@@ -7,13 +7,13 @@
               android:orientation="vertical"
               tools:ignore="UseCompoundDrawables,ContentDescription">
 
-  <androidx.appcompat.widget.Toolbar
+  <com.google.android.material.appbar.MaterialToolbar
     android:id="@+id/about_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorPrimary"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+    android:background="?attr/colorPrimary"
+    app:titleTextColor="?attr/colorOnPrimary"
+    app:popupTheme="@style/Theme.Andrinux.PopupOverlay"/>
 
   <ScrollView
     android:layout_width="match_parent"
@@ -26,13 +26,15 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <androidx.cardview.widget.CardView
+      <com.google.android.material.card.MaterialCardView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/list_download_item_color_dark"
-        app:cardUseCompatPadding="true">
+        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
           android:layout_width="fill_parent"
@@ -60,7 +62,7 @@
               android:paddingLeft="16dp"
               android:paddingRight="16dp"
               android:text="@string/app_name"
-              android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+              android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"/>
           </LinearLayout>
 
           <LinearLayout
@@ -94,14 +96,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_version_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
               <TextView
                 android:id="@+id/app_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
             </LinearLayout>
           </LinearLayout>
 
@@ -131,7 +133,7 @@
               android:paddingBottom="8dp"
               android:paddingTop="8dp"
               android:text="@string/about_libraries_label"
-              android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+              android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
           </LinearLayout>
 
@@ -166,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_source_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
             </LinearLayout>
 
@@ -174,15 +176,17 @@
 
         </LinearLayout>
 
-      </androidx.cardview.widget.CardView>
+      </com.google.android.material.card.MaterialCardView>
 
-      <androidx.cardview.widget.CardView
+      <com.google.android.material.card.MaterialCardView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/list_download_item_color_dark"
-        app:cardUseCompatPadding="true">
+        app:cardBackgroundColor="?attr/colorErrorContainer"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
 
         <LinearLayout
           android:layout_width="fill_parent"
@@ -210,7 +214,8 @@
               android:paddingLeft="16dp"
               android:paddingRight="16dp"
               android:text="@string/dangerous_zone"
-              android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+              android:textColor="?attr/colorOnErrorContainer"
+              android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"/>
           </LinearLayout>
 
           <LinearLayout
@@ -244,20 +249,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_reset_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+                android:textColor="?attr/colorOnErrorContainer"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
 
               <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/about_reset_label_desc"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                android:textColor="?attr/colorOnErrorContainer"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"/>
 
             </LinearLayout>
 
           </LinearLayout>
         </LinearLayout>
 
-      </androidx.cardview.widget.CardView>
+      </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
   </ScrollView>

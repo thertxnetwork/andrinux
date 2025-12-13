@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.net.wifi.WifiManager
 import android.os.Binder
 import android.os.Build
@@ -11,6 +12,7 @@ import android.os.IBinder
 import android.os.PowerManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
 import com.thertxnetwork.andrinux.R
 import com.thertxnetwork.andrinux.backend.EmulatorDebug
 import com.thertxnetwork.andrinux.backend.TerminalSession
@@ -40,15 +42,24 @@ class NeoTermService : Service() {
   override fun onCreate() {
     super.onCreate()
     createNotificationChannel()
-    startForeground(NOTIFICATION_ID, createNotification())
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+      ServiceCompat.startForeground(
+        this,
+        NOTIFICATION_ID,
+        createNotification(),
+        ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+      )
+    } else {
+      startForeground(NOTIFICATION_ID, createNotification())
+    }
   }
 
-  override fun onBind(intent: Intent): IBinder? {
+  override fun onBind(intent: Intent): IBinder {
     return serviceBinder
   }
 
-  override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-    val action = intent.action
+  override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    val action = intent?.action
     when (action) {
       ACTION_SERVICE_STOP -> {
         for (i in mTerminalSessions.indices)
@@ -61,11 +72,11 @@ class NeoTermService : Service() {
       ACTION_RELEASE_LOCK -> releaseLock()
     }
 
-    return Service.START_NOT_STICKY
+    return START_NOT_STICKY
   }
 
   override fun onDestroy() {
-    stopForeground(true)
+    ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
 
     for (i in mTerminalSessions.indices)
       mTerminalSessions[i].finishIfRunning()
@@ -135,7 +146,8 @@ class NeoTermService : Service() {
   private fun createNotification(): Notification {
     val notifyIntent = Intent(this, NeoTermActivity::class.java)
     notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    val pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
+    val pendingIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    val pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, pendingIntentFlags)
 
     val sessionCount = mTerminalSessions.size
     val xSessionCount = mXSessions.size
@@ -153,13 +165,13 @@ class NeoTermService : Service() {
     builder.setShowWhen(false)
     builder.color = 0xFF000000.toInt()
 
-    builder.priority = if (lockAcquired) Notification.PRIORITY_HIGH else Notification.PRIORITY_LOW
+    builder.priority = if (lockAcquired) NotificationCompat.PRIORITY_HIGH else NotificationCompat.PRIORITY_LOW
 
     val exitIntent = Intent(this, NeoTermService::class.java).setAction(ACTION_SERVICE_STOP)
     builder.addAction(
       android.R.drawable.ic_delete,
       getString(R.string.exit),
-      PendingIntent.getService(this, 0, exitIntent, 0)
+      PendingIntent.getService(this, 0, exitIntent, pendingIntentFlags)
     )
 
     val newWakeAction = if (lockAcquired) ACTION_RELEASE_LOCK else ACTION_ACQUIRE_LOCK
@@ -171,16 +183,14 @@ class NeoTermService : Service() {
         R.string.service_acquire_lock
     )
     val actionIcon = if (lockAcquired) android.R.drawable.ic_lock_idle_lock else android.R.drawable.ic_lock_lock
-    builder.addAction(actionIcon, actionTitle, PendingIntent.getService(this, 0, toggleWakeLockIntent, 0))
+    builder.addAction(actionIcon, actionTitle, PendingIntent.getService(this, 0, toggleWakeLockIntent, pendingIntentFlags))
 
     return builder.build()
   }
 
   private fun createNotificationChannel() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
-
-    val channel = NotificationChannel(DEFAULT_CHANNEL_ID, "NeoTerm", NotificationManager.IMPORTANCE_LOW)
-    channel.description = "NeoTerm notifications"
+    val channel = NotificationChannel(DEFAULT_CHANNEL_ID, "Andrinux", NotificationManager.IMPORTANCE_LOW)
+    channel.description = "Andrinux terminal notifications"
     val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     manager.createNotificationChannel(channel)
   }
@@ -216,11 +226,11 @@ class NeoTermService : Service() {
   }
 
   companion object {
-    val ACTION_SERVICE_STOP = "neoterm.action.service.stop"
-    val ACTION_ACQUIRE_LOCK = "neoterm.action.service.lock.acquire"
-    val ACTION_RELEASE_LOCK = "neoterm.action.service.lock.release"
-    private val NOTIFICATION_ID = 52019
+    const val ACTION_SERVICE_STOP = "com.thertxnetwork.andrinux.action.service.stop"
+    const val ACTION_ACQUIRE_LOCK = "com.thertxnetwork.andrinux.action.service.lock.acquire"
+    const val ACTION_RELEASE_LOCK = "com.thertxnetwork.andrinux.action.service.lock.release"
+    private const val NOTIFICATION_ID = 52019
 
-    val DEFAULT_CHANNEL_ID = "neoterm_notification_channel"
+    const val DEFAULT_CHANNEL_ID = "andrinux_notification_channel"
   }
 }
