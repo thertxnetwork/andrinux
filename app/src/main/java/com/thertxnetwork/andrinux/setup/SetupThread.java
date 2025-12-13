@@ -97,7 +97,7 @@ final class SetupThread extends Thread {
                   outStream.write(buffer, 0, readBytes);
                 }
               }
-              if (zipEntryName.startsWith("bin/") || zipEntryName.startsWith("libexec") || zipEntryName.startsWith("lib/apt/methods")) {
+              if (isExecutable(zipEntryName)) {
                 //noinspection OctalInteger
                 Os.chmod(targetFile.getAbsolutePath(), 0700);
               }
@@ -138,6 +138,19 @@ final class SetupThread extends Thread {
         }
       });
     }
+  }
+
+  /**
+   * Check if a file path should have executable permissions set.
+   * This includes binaries in bin directories and apt method handlers.
+   */
+  private static boolean isExecutable(String path) {
+    return path.startsWith("bin/") 
+        || path.startsWith("usr/bin/")
+        || path.startsWith("libexec")
+        || path.startsWith("usr/libexec")
+        || path.startsWith("lib/apt/methods")
+        || path.startsWith("usr/lib/apt/methods");
   }
 
   private static void deleteFolder(File fileOrDirectory) throws IOException {
