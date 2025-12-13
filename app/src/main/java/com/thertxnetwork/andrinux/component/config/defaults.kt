@@ -35,7 +35,7 @@ object NeoTermPath {
   
   val ROOT_PATH: String
     get() = rootPath ?: throw IllegalStateException(
-      "NeoTermPath.init() must be called before accessing paths"
+      "NeoTermPath.init() must be called in Application.onCreate() before accessing paths"
     )
     
   val USR_PATH: String
