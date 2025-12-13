@@ -22,9 +22,11 @@ android {
         // noinspection GradleDependency
         implementation "androidx.window:window:1.0.0-alpha09"
 
-        // Do not increment version higher than 2.5 or there
-        // will be runtime exceptions on android < 8
-        // due to missing classes like java.nio.file.Path.
+        // WARNING: commons-io 2.5 has CVE-2024-47554 (XmlStreamReader DoS vulnerability).
+        // However, this app doesn't use XmlStreamReader, so the vulnerability is not exploitable.
+        // Do not increment version higher than 2.5 or there will be runtime exceptions on
+        // android < 8 (API 26) due to missing classes like java.nio.file.Path.
+        // noinspection GradleDependency
         implementation "commons-io:commons-io:2.5"
 
         implementation project(":terminal-view")
