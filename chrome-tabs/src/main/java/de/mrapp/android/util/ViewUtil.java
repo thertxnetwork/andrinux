@@ -1,7 +1,9 @@
 package de.mrapp.android.util;
 
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -98,5 +100,16 @@ public final class ViewUtil {
             params.setMargins(left, top, right, bottom);
             view.setLayoutParams(params);
         }
+    }
+
+    /**
+     * Removes an OnGlobalLayoutListener from a ViewTreeObserver.
+     *
+     * @param observer The ViewTreeObserver
+     * @param listener The listener to remove
+     */
+    public static void removeOnGlobalLayoutListener(@NonNull ViewTreeObserver observer,
+                                                    @NonNull ViewTreeObserver.OnGlobalLayoutListener listener) {
+        observer.removeOnGlobalLayoutListener(listener);
     }
 }

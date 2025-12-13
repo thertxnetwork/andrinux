@@ -1,5 +1,7 @@
 package de.mrapp.android.util;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -23,6 +25,21 @@ public final class Condition {
     @NonNull
     public static <T> T ensureNotNull(@Nullable T value, @NonNull String message) {
         if (value == null) {
+            throw new IllegalArgumentException(message);
+        }
+        return value;
+    }
+
+    /**
+     * Ensures that a CharSequence is not empty.
+     *
+     * @param value   The CharSequence to check
+     * @param message The exception message if empty
+     * @return The non-empty CharSequence
+     */
+    @NonNull
+    public static CharSequence ensureNotEmpty(@Nullable CharSequence value, @NonNull String message) {
+        if (TextUtils.isEmpty(value)) {
             throw new IllegalArgumentException(message);
         }
         return value;
