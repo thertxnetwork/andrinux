@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class ViewRecycler<ItemType, ParamType> extends AbstractViewRecycler<ItemType, ParamType> {
 
-    private AbstractViewHolderAdapter<ItemType, ParamType, ?> adapter;
+    private Adapter<ItemType, ParamType> adapter;
 
     /**
      * Creates a new view recycler.
@@ -37,13 +37,13 @@ public class ViewRecycler<ItemType, ParamType> extends AbstractViewRecycler<Item
      *
      * @param adapter The adapter
      */
-    public void setAdapter(@Nullable AbstractViewHolderAdapter<ItemType, ParamType, ?> adapter) {
+    public void setAdapter(@Nullable Adapter<ItemType, ParamType> adapter) {
         this.adapter = adapter;
     }
 
     @Override
     @Nullable
-    public AbstractViewHolderAdapter<ItemType, ParamType, ?> getAdapter() {
+    public Adapter<ItemType, ParamType> getAdapter() {
         return adapter;
     }
 

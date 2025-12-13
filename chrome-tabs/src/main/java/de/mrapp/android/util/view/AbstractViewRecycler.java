@@ -20,6 +20,80 @@ import java.util.Map;
  */
 public abstract class AbstractViewRecycler<ItemType, ParamType> {
 
+    /**
+     * An abstract adapter for the view recycler.
+     *
+     * @param <ItemType>  The type of items
+     * @param <ParamType> The type of parameters
+     */
+    public static abstract class Adapter<ItemType, ParamType> {
+
+        /**
+         * Inflates a view for an item.
+         *
+         * @param inflater The layout inflater
+         * @param parent   The parent view group
+         * @param item     The item
+         * @param index    The index
+         * @param params   The parameters
+         * @return The inflated view
+         */
+        @NonNull
+        public abstract View onInflateView(@NonNull LayoutInflater inflater,
+                                           @Nullable ViewGroup parent,
+                                           @NonNull ItemType item,
+                                           int index,
+                                           @NonNull ParamType... params);
+
+        /**
+         * Called when a view is shown.
+         *
+         * @param context  The context
+         * @param view     The view
+         * @param item     The item
+         * @param inflated Whether the view was just inflated
+         * @param params   The parameters
+         */
+        public abstract void onShowView(@NonNull Context context,
+                                        @NonNull View view,
+                                        @NonNull ItemType item,
+                                        boolean inflated,
+                                        @NonNull ParamType... params);
+
+        /**
+         * Called when a view is removed.
+         *
+         * @param view The view
+         */
+        public void onRemoveView(@NonNull View view) {
+            // Default implementation does nothing
+        }
+
+        /**
+         * Called to save the state of a view.
+         *
+         * @param view The view
+         * @param item The item
+         * @return The saved state bundle, or null
+         */
+        @Nullable
+        public android.os.Bundle onSaveInstanceState(@NonNull View view, @NonNull ItemType item) {
+            return null;
+        }
+
+        /**
+         * Called to restore the state of a view.
+         *
+         * @param view     The view
+         * @param item     The item
+         * @param savedState The saved state bundle
+         */
+        public void onRestoreInstanceState(@NonNull View view, @NonNull ItemType item,
+                                           @NonNull android.os.Bundle savedState) {
+            // Default implementation does nothing
+        }
+    }
+
     private final Context context;
     private final LayoutInflater inflater;
     private final Map<ItemType, View> activeViews;
@@ -127,5 +201,5 @@ public abstract class AbstractViewRecycler<ItemType, ParamType> {
      * @return The adapter
      */
     @Nullable
-    public abstract AbstractViewHolderAdapter<ItemType, ParamType, ?> getAdapter();
+    public abstract Adapter<ItemType, ParamType> getAdapter();
 }
