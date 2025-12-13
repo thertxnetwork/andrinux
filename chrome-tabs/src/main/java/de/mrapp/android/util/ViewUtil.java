@@ -1,5 +1,6 @@
 package de.mrapp.android.util;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,16 @@ public final class ViewUtil {
 
     private ViewUtil() {
         // Private constructor to prevent instantiation
+    }
+
+    /**
+     * Sets the background of a view.
+     *
+     * @param view       The view
+     * @param background The background drawable
+     */
+    public static void setBackground(@NonNull View view, @Nullable Drawable background) {
+        view.setBackground(background);
     }
 
     /**

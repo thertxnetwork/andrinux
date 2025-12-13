@@ -31,6 +31,28 @@ public final class Condition {
     }
 
     /**
+     * Ensures that a value is not null, throwing a custom exception type.
+     *
+     * @param value          The value to check
+     * @param message        The exception message if null
+     * @param exceptionClass The exception class to throw
+     * @param <T>            The type of the value
+     * @return The non-null value
+     */
+    @NonNull
+    public static <T> T ensureNotNull(@Nullable T value, @NonNull String message,
+                                       @NonNull Class<? extends RuntimeException> exceptionClass) {
+        if (value == null) {
+            try {
+                throw exceptionClass.getConstructor(String.class).newInstance(message);
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalArgumentException(message);
+            }
+        }
+        return value;
+    }
+
+    /**
      * Ensures that a CharSequence is not empty.
      *
      * @param value   The CharSequence to check
