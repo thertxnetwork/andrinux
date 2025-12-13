@@ -19,10 +19,54 @@ import androidx.collection.LruCache;
  */
 public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType> {
 
+    /**
+     * A listener interface for data binding events.
+     *
+     * @param <DataType>  The type of data
+     * @param <KeyType>   The type of key
+     * @param <ViewType>  The type of view
+     * @param <ParamType> The type of parameters
+     */
+    public interface Listener<DataType, KeyType, ViewType, ParamType> {
+
+        /**
+         * Called when data binding has started.
+         *
+         * @param dataBinder The data binder
+         * @param key        The key
+         * @param view       The view
+         * @param params     The parameters
+         * @return True to proceed with loading, false to cancel
+         */
+        boolean onLoadData(@NonNull AbstractDataBinder<DataType, KeyType, ViewType, ParamType> dataBinder,
+                          @NonNull KeyType key, @NonNull ViewType view, @NonNull ParamType... params);
+
+        /**
+         * Called when data has been loaded and bound.
+         *
+         * @param dataBinder The data binder
+         * @param key        The key
+         * @param data       The loaded data
+         * @param view       The view
+         * @param params     The parameters
+         */
+        void onFinished(@NonNull AbstractDataBinder<DataType, KeyType, ViewType, ParamType> dataBinder,
+                       @NonNull KeyType key, @Nullable DataType data, @NonNull ViewType view,
+                       @NonNull ParamType... params);
+
+        /**
+         * Called when data loading was canceled.
+         *
+         * @param dataBinder The data binder
+         */
+        void onCanceled(@NonNull AbstractDataBinder<DataType, KeyType, ViewType, ParamType> dataBinder);
+    }
+
     private final Context context;
     private final LruCache<KeyType, DataType> cache;
     private final Handler mainHandler;
     private boolean canceled;
+    private Listener<DataType, KeyType, ViewType, ParamType> listener;
 
     /**
      * Creates a new data binder.
@@ -58,10 +102,32 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
     }
 
     /**
+     * Sets the listener.
+     *
+     * @param listener The listener
+     */
+    public void setListener(@Nullable Listener<DataType, KeyType, ViewType, ParamType> listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * Gets the listener.
+     *
+     * @return The listener
+     */
+    @Nullable
+    public Listener<DataType, KeyType, ViewType, ParamType> getListener() {
+        return listener;
+    }
+
+    /**
      * Cancels all pending operations.
      */
     public void cancel() {
         canceled = true;
+        if (listener != null) {
+            listener.onCanceled(this);
+        }
     }
 
     /**
@@ -83,11 +149,19 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
     @SafeVarargs
     public final void load(@NonNull KeyType key, @NonNull ViewType view, @NonNull ParamType... params) {
         canceled = false;
+
+        // Notify listener
+        if (listener != null && !listener.onLoadData(this, key, view, params)) {
+            return;
+        }
         
         // Check cache first
         DataType cachedData = cache.get(key);
         if (cachedData != null) {
             onPostExecute(view, cachedData, params);
+            if (listener != null) {
+                listener.onFinished(this, key, cachedData, view, params);
+            }
             return;
         }
 
@@ -109,6 +183,9 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
                     cache.put(key, data);
                 }
                 AbstractDataBinder.this.onPostExecute(view, data, params);
+                if (listener != null) {
+                    listener.onFinished(AbstractDataBinder.this, key, data, view, params);
+                }
             }
         }.execute();
     }
