@@ -55,6 +55,31 @@ public abstract class TabSwitcherDecorator extends AbstractViewHolderAdapter {
   public abstract View onInflateView(@NonNull final LayoutInflater inflater,
                                      @Nullable final ViewGroup parent, final int viewType);
 
+  // Implementation of AbstractViewHolderAdapter abstract method
+  @Override
+  @NonNull
+  @SuppressWarnings("unchecked")
+  public View onInflateView(@NonNull final LayoutInflater inflater,
+                            @Nullable final ViewGroup parent,
+                            @NonNull final Object item,
+                            final int index,
+                            @NonNull final Object... params) {
+    Tab tab = (Tab) item;
+    int viewType = getViewType(tab, index);
+    return onInflateView(inflater, parent, viewType);
+  }
+
+  // Implementation of AbstractViewHolderAdapter abstract method
+  @Override
+  @SuppressWarnings("unchecked")
+  public void onShowView(@NonNull final Context context,
+                         @NonNull final View view,
+                         @NonNull final Object item,
+                         final boolean inflated,
+                         @NonNull final Object... params) {
+    // This is handled by applyDecorator instead
+  }
+
   /**
    * The method which is invoked, when the view, which is used to visualize a tab, should be
    * shown, respectively when it should be refreshed. The purpose of this method is to customize

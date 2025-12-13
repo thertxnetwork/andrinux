@@ -9,7 +9,7 @@
   <string name="new_session">New Session</string>
   <string name="new_session_more">New Session…</string>
   <string name="new_system_session">New System Shell</string>
-  <string name="service_status_text">%d session(s), %d X session(s)</string>
+  <string name="service_status_text">%1$d session(s), %2$d X session(s)</string>
   <string name="service_lock_acquired">(Wake Locked)</string>
   <string name="service_acquire_lock">Acquire Lock</string>
   <string name="service_release_lock">Release Lock</string>
@@ -61,9 +61,7 @@
   <string name="done">Done</string>
   <string name="yes">Yes</string>
   <string name="install">Install</string>
-  <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome
-    Page: %s
-  </string>
+  <string name="package_details">Package: %1$s\nVersion: %2$s\nDepends: %3$s\nInstalled Size: %4$s\nDescription: %5$s\nHome Page: %6$s</string>
   <string name="package_list_empty">Package list is empty, please check your source.</string>
   <string name="menu_refresh_list">Refresh</string>
   <string name="menu_update">Update and Refresh</string>
