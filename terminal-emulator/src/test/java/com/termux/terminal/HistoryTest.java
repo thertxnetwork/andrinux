@@ -1,4 +1,4 @@
-package com.termux.terminal;
+package com.thertxnetwork.andrinux.terminal;
 
 
 public class HistoryTest extends TerminalTestCase {

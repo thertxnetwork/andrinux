@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary colors from termux-shared -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Red palette -->
+    <color name="red_400">#FF0000</color>
+    
+    <!-- Grey palette -->
+    <color name="grey_500">#9E9E9E</color>
 </resources>

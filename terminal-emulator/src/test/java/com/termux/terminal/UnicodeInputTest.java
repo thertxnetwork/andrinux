@@ -1,4 +1,4 @@
-package com.termux.terminal;
+package com.thertxnetwork.andrinux.terminal;
 
 import java.io.UnsupportedEncodingException;
 
