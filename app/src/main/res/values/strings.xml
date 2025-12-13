@@ -71,6 +71,10 @@
   <string name="crash_model">Model: %s</string>
   <string name="crash_app">App: %s</string>
   <string name="crash_stack_trace">Stack Trace</string>
+  <string name="crash_copy">Copy</string>
+  <string name="crash_share">Share</string>
+  <string name="crash_restart">Restart</string>
+  <string name="crash_copied">Crash report copied to clipboard</string>
 
   <string name="installer_message">Installing</string>
   <string name="installer_install_zsh_required">We will install oh-my-zsh and switch your login program to zsh

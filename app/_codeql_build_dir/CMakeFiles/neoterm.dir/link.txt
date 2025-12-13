@@ -1,0 +1,1 @@
+/home/runner/work/andrinux/.codeql-scratch/dbs/cpp/working/autobuild/bin/c++ -fPIC -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/neoterm.dir/link.d -shared -Wl,-soname,libneoterm.so -o libneoterm.so CMakeFiles/neoterm.dir/src/main/cpp/neoterm.cpp.o

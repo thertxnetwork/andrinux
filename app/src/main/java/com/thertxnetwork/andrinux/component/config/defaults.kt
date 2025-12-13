@@ -1,6 +1,7 @@
 package com.thertxnetwork.andrinux.component.config
 
 import android.annotation.SuppressLint
+import android.content.Context
 
 object DefaultValues {
   const val fontSize = 30
@@ -24,30 +25,80 @@ object DefaultValues {
 }
 
 object NeoTermPath {
-  @SuppressLint("SdCardPath")
-  const val ROOT_PATH = "/data/data/io.neoterm/files"
-  const val USR_PATH = "$ROOT_PATH/usr"
-  const val HOME_PATH = "$ROOT_PATH/home"
-  const val APT_BIN_PATH = "$USR_PATH/bin/apt"
-  const val LIB_PATH = "$USR_PATH/lib"
+  @Volatile
+  private var rootPath: String? = null
+  
+  @JvmStatic
+  fun init(context: Context) {
+    // Use actual app files directory for better compatibility
+    rootPath = context.filesDir.absolutePath
+  }
+  
+  @get:JvmStatic
+  val ROOT_PATH: String
+    get() = rootPath ?: throw IllegalStateException(
+      "NeoTermPath.init() must be called in Application.onCreate() before accessing paths"
+    )
+    
+  @get:JvmStatic
+  val USR_PATH: String
+    get() = "$ROOT_PATH/usr"
+    
+  @get:JvmStatic
+  val HOME_PATH: String
+    get() = "$ROOT_PATH/home"
+    
+  @get:JvmStatic
+  val APT_BIN_PATH: String
+    get() = "$USR_PATH/bin/apt"
+    
+  @get:JvmStatic
+  val LIB_PATH: String
+    get() = "$USR_PATH/lib"
 
-  const val CUSTOM_PATH = "$HOME_PATH/.neoterm"
-  const val NEOTERM_LOGIN_SHELL_PATH = "$CUSTOM_PATH/shell"
-  const val EKS_PATH = "$CUSTOM_PATH/eks"
-  const val EKS_DEFAULT_FILE = "$EKS_PATH/default.nl"
-  const val FONT_PATH = "$CUSTOM_PATH/font"
-  const val COLORS_PATH = "$CUSTOM_PATH/color"
-  const val USER_SCRIPT_PATH = "$CUSTOM_PATH/script"
-  const val PROFILE_PATH = "$CUSTOM_PATH/profile"
+  @get:JvmStatic
+  val CUSTOM_PATH: String
+    get() = "$HOME_PATH/.neoterm"
+    
+  @get:JvmStatic
+  val NEOTERM_LOGIN_SHELL_PATH: String
+    get() = "$CUSTOM_PATH/shell"
+    
+  @get:JvmStatic
+  val EKS_PATH: String
+    get() = "$CUSTOM_PATH/eks"
+    
+  @get:JvmStatic
+  val EKS_DEFAULT_FILE: String
+    get() = "$EKS_PATH/default.nl"
+    
+  @get:JvmStatic
+  val FONT_PATH: String
+    get() = "$CUSTOM_PATH/font"
+    
+  @get:JvmStatic
+  val COLORS_PATH: String
+    get() = "$CUSTOM_PATH/color"
+    
+  @get:JvmStatic
+  val USER_SCRIPT_PATH: String
+    get() = "$CUSTOM_PATH/script"
+    
+  @get:JvmStatic
+  val PROFILE_PATH: String
+    get() = "$CUSTOM_PATH/profile"
 
-  const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
-  const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
+  @get:JvmStatic
+  val SOURCE_FILE: String
+    get() = "$USR_PATH/etc/apt/sources.list"
+    
+  @get:JvmStatic
+  val PACKAGE_LIST_DIR: String
+    get() = "$USR_PATH/var/lib/apt/lists"
 
   private const val SOURCE = "https://raw.githubusercontent.com/NeoTerm/NeoTerm-repo/main"
 
+  @get:JvmStatic
   val DEFAULT_MAIN_PACKAGE_SOURCE: String
-
-  init {
-    DEFAULT_MAIN_PACKAGE_SOURCE = SOURCE
-  }
+    get() = SOURCE
 }

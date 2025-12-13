@@ -38,7 +38,7 @@ final class SetupThread extends Thread {
   @Override
   public void run() {
     try {
-      final String stagingPrefixPath = NeoTermPath.ROOT_PATH + "/usr-staging";
+      final String stagingPrefixPath = NeoTermPath.getROOT_PATH() + "/usr-staging";
       final File stagingPrefixFile = new File(stagingPrefixPath);
 
       if (stagingPrefixFile.exists()) {
