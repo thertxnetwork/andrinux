@@ -2,10 +2,12 @@ package de.mrapp.android.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 
 /**
@@ -55,6 +57,22 @@ public final class ThemeUtil {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attr, typedValue, true);
         return typedValue.resourceId;
+    }
+
+    /**
+     * Gets a drawable from a theme attribute.
+     *
+     * @param context The context
+     * @param attr    The attribute resource ID
+     * @return The drawable or null if not found
+     */
+    @Nullable
+    public static Drawable getDrawable(@NonNull Context context, @AttrRes int attr) {
+        TypedValue typedValue = new TypedValue();
+        if (context.getTheme().resolveAttribute(attr, typedValue, true)) {
+            return context.getResources().getDrawable(typedValue.resourceId, context.getTheme());
+        }
+        return null;
     }
 
     /**

@@ -1,6 +1,7 @@
 package de.mrapp.android.util.view;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -9,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
 import java.util.Comparator;
+
+import de.mrapp.android.util.logging.LogLevel;
 
 /**
  * A view recycler that keeps track of attached views.
@@ -24,19 +27,24 @@ public class AttachedViewRecycler<ItemType, ParamType> extends ViewRecycler<Item
     private LogLevel logLevel;
 
     /**
-     * Enum representing log levels.
-     */
-    public enum LogLevel {
-        OFF, ALL, VERBOSE, DEBUG, INFO, WARN, ERROR
-    }
-
-    /**
      * Creates a new attached view recycler.
      *
      * @param context The context
      */
     public AttachedViewRecycler(@NonNull Context context) {
         super(context);
+        this.logLevel = LogLevel.OFF;
+    }
+
+    /**
+     * Creates a new attached view recycler with parent and inflater.
+     *
+     * @param parent   The parent view group
+     * @param inflater The layout inflater
+     */
+    public AttachedViewRecycler(@NonNull ViewGroup parent, @NonNull LayoutInflater inflater) {
+        super(inflater.getContext());
+        this.parent = parent;
         this.logLevel = LogLevel.OFF;
     }
 
@@ -96,23 +104,26 @@ public class AttachedViewRecycler<ItemType, ParamType> extends ViewRecycler<Item
         return useParentPadding;
     }
 
-    /**
-     * Sets the log level.
-     *
-     * @param logLevel The log level
-     */
+    @Override
     public void setLogLevel(@NonNull LogLevel logLevel) {
         this.logLevel = logLevel;
     }
 
-    /**
-     * Gets the log level.
-     *
-     * @return The log level
-     */
+    @Override
     @NonNull
     public LogLevel getLogLevel() {
         return logLevel;
+    }
+
+    /**
+     * Gets the view for an item.
+     *
+     * @param item The item
+     * @return The view or null if not found
+     */
+    @Nullable
+    public View getView(@NonNull ItemType item) {
+        return getActiveViews().get(item);
     }
 
     @Override

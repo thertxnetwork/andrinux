@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.LruCache;
 
+import de.mrapp.android.util.logging.LogLevel;
+
 /**
  * An abstract data binder for loading data asynchronously and binding it to views.
  *
@@ -67,6 +69,7 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
     private final Handler mainHandler;
     private boolean canceled;
     private Listener<DataType, KeyType, ViewType, ParamType> listener;
+    private LogLevel logLevel = LogLevel.OFF;
 
     /**
      * Creates a new data binder.
@@ -111,6 +114,15 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
     }
 
     /**
+     * Adds a listener (alias for setListener).
+     *
+     * @param listener The listener
+     */
+    public void addListener(@Nullable Listener<DataType, KeyType, ViewType, ParamType> listener) {
+        this.listener = listener;
+    }
+
+    /**
      * Gets the listener.
      *
      * @return The listener
@@ -118,6 +130,25 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
     @Nullable
     public Listener<DataType, KeyType, ViewType, ParamType> getListener() {
         return listener;
+    }
+
+    /**
+     * Sets the log level.
+     *
+     * @param logLevel The log level
+     */
+    public void setLogLevel(@NonNull LogLevel logLevel) {
+        this.logLevel = logLevel;
+    }
+
+    /**
+     * Gets the log level.
+     *
+     * @return The log level
+     */
+    @NonNull
+    public LogLevel getLogLevel() {
+        return logLevel;
     }
 
     /**
@@ -140,6 +171,16 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
     }
 
     /**
+     * Checks if a key is cached.
+     *
+     * @param key The key
+     * @return Whether the key is cached
+     */
+    public boolean isCached(@NonNull KeyType key) {
+        return cache.get(key) != null;
+    }
+
+    /**
      * Loads data for a key and binds it to a view.
      *
      * @param key    The key
@@ -158,7 +199,7 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
         // Check cache first
         DataType cachedData = cache.get(key);
         if (cachedData != null) {
-            onPostExecute(view, cachedData, params);
+            onPostExecuteInternal(view, cachedData, params);
             if (listener != null) {
                 listener.onFinished(this, key, cachedData, view, params);
             }
@@ -166,14 +207,14 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
         }
 
         // Pre-execute on main thread
-        onPreExecute(view, params);
+        onPreExecuteInternal(view, params);
 
         // Execute in background
         new AsyncTask<Void, Void, DataType>() {
             @Override
             protected DataType doInBackground(Void... voids) {
                 if (canceled) return null;
-                return AbstractDataBinder.this.doInBackground(key, params);
+                return AbstractDataBinder.this.doInBackgroundInternal(key, params);
             }
 
             @Override
@@ -182,7 +223,7 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
                 if (data != null) {
                     cache.put(key, data);
                 }
-                AbstractDataBinder.this.onPostExecute(view, data, params);
+                AbstractDataBinder.this.onPostExecuteInternal(view, data, params);
                 if (listener != null) {
                     listener.onFinished(AbstractDataBinder.this, key, data, view, params);
                 }
@@ -191,13 +232,37 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
     }
 
     /**
+     * Internal method for pre-execute.
+     */
+    @SuppressWarnings("unchecked")
+    private void onPreExecuteInternal(@NonNull ViewType view, @NonNull ParamType[] params) {
+        onPreExecute(view, params);
+    }
+
+    /**
+     * Internal method for doInBackground.
+     */
+    @SuppressWarnings("unchecked")
+    private DataType doInBackgroundInternal(@NonNull KeyType key, @NonNull ParamType[] params) {
+        return doInBackground(key, params);
+    }
+
+    /**
+     * Internal method for post-execute.
+     */
+    @SuppressWarnings("unchecked")
+    private void onPostExecuteInternal(@NonNull ViewType view, @Nullable DataType data, 
+                                       @NonNull ParamType[] params) {
+        onPostExecute(view, data, params);
+    }
+
+    /**
      * Called before background execution on the main thread.
      *
      * @param view   The view
      * @param params The parameters
      */
-    @SafeVarargs
-    protected void onPreExecute(@NonNull ViewType view, @NonNull ParamType... params) {
+    protected void onPreExecute(@NonNull ViewType view, @NonNull ParamType[] params) {
         // Default implementation does nothing
     }
 
@@ -209,8 +274,7 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
      * @return The loaded data
      */
     @Nullable
-    @SafeVarargs
-    protected abstract DataType doInBackground(@NonNull KeyType key, @NonNull ParamType... params);
+    protected abstract DataType doInBackground(@NonNull KeyType key, @NonNull ParamType[] params);
 
     /**
      * Called after background execution on the main thread.
@@ -219,9 +283,8 @@ public abstract class AbstractDataBinder<DataType, KeyType, ViewType, ParamType>
      * @param data   The loaded data
      * @param params The parameters
      */
-    @SafeVarargs
     protected void onPostExecute(@NonNull ViewType view, @Nullable DataType data, 
-                                 @NonNull ParamType... params) {
+                                 @NonNull ParamType[] params) {
         // Default implementation does nothing
     }
 

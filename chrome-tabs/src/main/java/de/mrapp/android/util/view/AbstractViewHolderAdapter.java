@@ -17,8 +17,16 @@ import androidx.annotation.Nullable;
  */
 public abstract class AbstractViewHolderAdapter<ItemType, ParamType, ViewHolderType> {
 
-    private final Context context;
-    private final LayoutInflater inflater;
+    private Context context;
+    private LayoutInflater inflater;
+    private View currentParentView;
+
+    /**
+     * Creates a new adapter.
+     */
+    public AbstractViewHolderAdapter() {
+        // Default constructor
+    }
 
     /**
      * Creates a new adapter.
@@ -31,11 +39,21 @@ public abstract class AbstractViewHolderAdapter<ItemType, ParamType, ViewHolderT
     }
 
     /**
+     * Sets the context.
+     *
+     * @param context The context
+     */
+    public void setContext(@NonNull Context context) {
+        this.context = context;
+        this.inflater = LayoutInflater.from(context);
+    }
+
+    /**
      * Gets the context.
      *
      * @return The context
      */
-    @NonNull
+    @Nullable
     public Context getContext() {
         return context;
     }
@@ -45,9 +63,28 @@ public abstract class AbstractViewHolderAdapter<ItemType, ParamType, ViewHolderT
      *
      * @return The layout inflater
      */
-    @NonNull
+    @Nullable
     protected LayoutInflater getInflater() {
         return inflater;
+    }
+
+    /**
+     * Sets the current parent view.
+     *
+     * @param view The parent view
+     */
+    protected void setCurrentParentView(@Nullable View view) {
+        this.currentParentView = view;
+    }
+
+    /**
+     * Gets the current parent view.
+     *
+     * @return The parent view
+     */
+    @Nullable
+    protected View getCurrentParentView() {
+        return currentParentView;
     }
 
     /**

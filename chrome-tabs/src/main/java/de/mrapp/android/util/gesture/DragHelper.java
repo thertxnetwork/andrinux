@@ -11,12 +11,17 @@ import androidx.annotation.NonNull;
  */
 public class DragHelper {
 
-    private final int touchSlop;
+    private int touchSlop;
     private float startX;
     private float startY;
     private float deltaX;
     private float deltaY;
+    private float dragStartPosition;
+    private float dragDistance;
+    private float minDragDistance;
+    private float maxDragDistance;
     private boolean dragging;
+    private boolean isReset;
 
     /**
      * Creates a new drag helper.
@@ -25,6 +30,8 @@ public class DragHelper {
      */
     public DragHelper(int threshold) {
         this.touchSlop = threshold;
+        this.minDragDistance = Float.MIN_VALUE;
+        this.maxDragDistance = Float.MAX_VALUE;
         reset();
     }
 
@@ -45,7 +52,29 @@ public class DragHelper {
         startY = 0;
         deltaX = 0;
         deltaY = 0;
+        dragStartPosition = 0;
+        dragDistance = 0;
         dragging = false;
+        isReset = true;
+    }
+
+    /**
+     * Resets the drag helper with a new threshold.
+     *
+     * @param threshold The new drag threshold
+     */
+    public void reset(int threshold) {
+        this.touchSlop = threshold;
+        reset();
+    }
+
+    /**
+     * Returns whether the drag helper is in reset state.
+     *
+     * @return True if reset, false otherwise
+     */
+    public boolean isReset() {
+        return isReset;
     }
 
     /**
@@ -58,6 +87,24 @@ public class DragHelper {
     }
 
     /**
+     * Updates the drag helper with a position.
+     *
+     * @param position The drag position
+     */
+    public void update(float position) {
+        if (isReset) {
+            dragStartPosition = position;
+            isReset = false;
+        }
+        dragDistance = position - dragStartPosition;
+        dragDistance = Math.max(minDragDistance, Math.min(maxDragDistance, dragDistance));
+        
+        if (!dragging && Math.abs(dragDistance) > touchSlop) {
+            dragging = true;
+        }
+    }
+
+    /**
      * Updates the drag helper with coordinates.
      *
      * @param x The x coordinate
@@ -67,10 +114,13 @@ public class DragHelper {
         if (startX == 0 && startY == 0) {
             startX = x;
             startY = y;
+            dragStartPosition = x;
+            isReset = false;
         }
 
         deltaX = x - startX;
         deltaY = y - startY;
+        dragDistance = deltaX;
 
         if (!dragging) {
             float distance = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -124,11 +174,47 @@ public class DragHelper {
     }
 
     /**
+     * Gets the drag start position.
+     *
+     * @return The drag start position
+     */
+    public float getDragStartPosition() {
+        return dragStartPosition;
+    }
+
+    /**
      * Gets the drag distance.
+     *
+     * @return The drag distance
+     */
+    public float getDragDistance() {
+        return dragDistance;
+    }
+
+    /**
+     * Gets the drag distance (alias for getDistance).
      *
      * @return The distance
      */
     public float getDistance() {
         return (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
+    /**
+     * Sets the minimum drag distance.
+     *
+     * @param minDragDistance The minimum drag distance
+     */
+    public void setMinDragDistance(float minDragDistance) {
+        this.minDragDistance = minDragDistance;
+    }
+
+    /**
+     * Sets the maximum drag distance.
+     *
+     * @param maxDragDistance The maximum drag distance
+     */
+    public void setMaxDragDistance(float maxDragDistance) {
+        this.maxDragDistance = maxDragDistance;
     }
 }

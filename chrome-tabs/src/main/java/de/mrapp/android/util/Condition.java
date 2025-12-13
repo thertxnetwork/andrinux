@@ -151,4 +151,49 @@ public final class Condition {
             throw new IllegalArgumentException(message);
         }
     }
+
+    /**
+     * Ensures that two values are not equal, throwing a custom exception type.
+     *
+     * @param value1         The first value
+     * @param value2         The second value
+     * @param message        The exception message if equal
+     * @param exceptionClass The exception class to throw
+     */
+    public static void ensureNotEqual(int value1, int value2, @NonNull String message,
+                                       @NonNull Class<? extends RuntimeException> exceptionClass) {
+        if (value1 == value2) {
+            try {
+                throw exceptionClass.getConstructor(String.class).newInstance(message);
+            } catch (ReflectiveOperationException e) {
+                throw new IllegalArgumentException(message);
+            }
+        }
+    }
+
+    /**
+     * Ensures that two values are equal.
+     *
+     * @param value1  The first value
+     * @param value2  The second value
+     * @param message The exception message if not equal
+     */
+    public static void ensureEqual(int value1, int value2, @NonNull String message) {
+        if (value1 != value2) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * Ensures that a value is greater than another value.
+     *
+     * @param value     The value to check
+     * @param threshold The threshold value
+     * @param message   The exception message if not greater
+     */
+    public static void ensureGreater(int value, int threshold, @NonNull String message) {
+        if (value <= threshold) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

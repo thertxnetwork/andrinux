@@ -9,9 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+
+import de.mrapp.android.util.logging.LogLevel;
 
 /**
  * A view recycler for recycling views.
@@ -22,6 +23,7 @@ import java.util.Map;
 public class ViewRecycler<ItemType, ParamType> extends AbstractViewRecycler<ItemType, ParamType> {
 
     private Adapter<ItemType, ParamType> adapter;
+    private LogLevel logLevel = LogLevel.OFF;
 
     /**
      * Creates a new view recycler.
@@ -30,6 +32,15 @@ public class ViewRecycler<ItemType, ParamType> extends AbstractViewRecycler<Item
      */
     public ViewRecycler(@NonNull Context context) {
         super(context);
+    }
+
+    /**
+     * Creates a new view recycler with a layout inflater.
+     *
+     * @param inflater The layout inflater
+     */
+    public ViewRecycler(@NonNull LayoutInflater inflater) {
+        super(inflater.getContext());
     }
 
     /**
@@ -45,6 +56,32 @@ public class ViewRecycler<ItemType, ParamType> extends AbstractViewRecycler<Item
     @Nullable
     public Adapter<ItemType, ParamType> getAdapter() {
         return adapter;
+    }
+
+    /**
+     * Sets the log level.
+     *
+     * @param logLevel The log level
+     */
+    public void setLogLevel(@NonNull LogLevel logLevel) {
+        this.logLevel = logLevel;
+    }
+
+    /**
+     * Gets the log level.
+     *
+     * @return The log level
+     */
+    @NonNull
+    public LogLevel getLogLevel() {
+        return logLevel;
+    }
+
+    /**
+     * Clears the view cache.
+     */
+    public void clearCache() {
+        removeAll();
     }
 
     @Override
