@@ -97,7 +97,8 @@ final class SetupThread extends Thread {
                   outStream.write(buffer, 0, readBytes);
                 }
               }
-              if (zipEntryName.startsWith("bin/") || zipEntryName.startsWith("libexec") || zipEntryName.startsWith("lib/apt/methods")) {
+              // Set executable permissions for binaries
+              if (isExecutablePath(zipEntryName)) {
                 //noinspection OctalInteger
                 Os.chmod(targetFile.getAbsolutePath(), 0700);
               }
@@ -156,5 +157,26 @@ final class SetupThread extends Thread {
         + (fileOrDirectory.isDirectory() ? "directory " : "file ")
         + fileOrDirectory.getAbsolutePath());
     }
+  }
+
+  /**
+   * Check if the given path should have executable permissions.
+   * This includes binaries in bin/, libexec/, and various library helpers.
+   */
+  private static boolean isExecutablePath(String path) {
+    // Executable path patterns
+    String[] executablePatterns = {
+      "bin/",
+      "libexec/",
+      "lib/apt/methods/",
+      "lib/bash/"
+    };
+    
+    for (String pattern : executablePatterns) {
+      if (path.startsWith(pattern) || path.contains("/" + pattern)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
