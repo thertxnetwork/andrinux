@@ -6,8 +6,7 @@ add_library(neoterm
 
 target_link_libraries(neoterm)
 
-add_library(nexec
-             SHARED
-             src/main/cpp/exec.c)
+#add_library(nexec
+#             SHARED
+#             src/main/cpp/exec.c)
 
-target_link_libraries(nexec dl)

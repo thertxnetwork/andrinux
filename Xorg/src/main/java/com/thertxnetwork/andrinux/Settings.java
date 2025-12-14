@@ -327,18 +327,6 @@ public class Settings {
 
       settingsLoaded = true;
 
-      // Initialize other paths dynamically based on context
-      String filesDir = p.getContext().getFilesDir().getAbsolutePath();
-      if (Globals.XLIB_DIR.length() == 0) {
-        Globals.XLIB_DIR = filesDir + "/usr/lib/xorg-neoterm";
-      }
-      if (Globals.UnSecureDataDir.length() == 0) {
-        Globals.UnSecureDataDir = filesDir + "/usr/share/xorg-neoterm";
-      }
-      if (Globals.HomeDir.length() == 0) {
-        Globals.HomeDir = filesDir + "/home";
-      }
-
       Log.i("SDL", "libSDL: Settings.Load(): loaded settings successfully");
       settingsFile.close();
 
@@ -367,18 +355,6 @@ public class Settings {
       Globals.DataDir = Globals.DownloadToSdcard ?
         SdcardAppPath.get().bestPath(p.getContext()) :
         p.getContext().getFilesDir().getAbsolutePath();
-    }
-
-    // Initialize other paths dynamically based on DataDir
-    String filesDir = p.getContext().getFilesDir().getAbsolutePath();
-    if (Globals.XLIB_DIR.length() == 0) {
-      Globals.XLIB_DIR = filesDir + "/usr/lib/xorg-neoterm";
-    }
-    if (Globals.UnSecureDataDir.length() == 0) {
-      Globals.UnSecureDataDir = filesDir + "/usr/share/xorg-neoterm";
-    }
-    if (Globals.HomeDir.length() == 0) {
-      Globals.HomeDir = filesDir + "/home";
     }
 
     Log.i("SDL", "libSDL: Settings.Load(): loading settings failed, running config dialog");

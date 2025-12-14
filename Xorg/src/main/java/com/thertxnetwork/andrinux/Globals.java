@@ -25,9 +25,7 @@ package com.thertxnetwork.andrinux;
 import android.view.KeyEvent;
 
 public class Globals {
-  // These paths will be set dynamically at runtime via Settings.Load()
-  // Do not use hardcoded paths to avoid issues on different Android versions
-  public static String XLIB_DIR = "";
+  public static String XLIB_DIR = "/data/data/com.thertxnetwork.andrinux/files/usr/lib/xorg-neoterm";
   public static String XLIBS[] = {
     "x11_sdl_native_helpers",
     "x11_sdl-1.2",
@@ -140,11 +138,9 @@ public class Globals {
   public static boolean MultitouchGesturesUsed[] = new boolean[4];
   public static int MultitouchGestureSensitivity = 1;
   public static int TouchscreenCalibration[] = new int[4];
-  // These paths will be set dynamically at runtime via Settings.Load()
-  // Using empty defaults to be initialized with context.getFilesDir()
-  public static String DataDir = "";
-  public static String UnSecureDataDir = "";
-  public static String HomeDir = "";
+  public static String DataDir = "/data/data/com.thertxnetwork.andrinux/files/usr/share/xorg-neoterm";
+  public static String UnSecureDataDir = "/data/data/com.thertxnetwork.andrinux/files/usr/share/xorg-neoterm";
+  public static String HomeDir = "/data/data/com.thertxnetwork.andrinux/files/home";
   public static boolean VideoLinearFilter = true;
   public static boolean MultiThreadedVideo = false;
 

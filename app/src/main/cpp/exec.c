@@ -6,22 +6,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define PATH_BUFFER_SIZE 512
-
-static const char *get_prefix_bin_path(char *buffer, int buffer_len) {
-    // Get PREFIX from environment variable (set by NeoTermPath.USR_PATH)
-    const char *prefix = getenv("PREFIX");
-    if (prefix != NULL) {
-        snprintf(buffer, buffer_len, "%s/bin/", prefix);
-        return buffer;
-    }
-    // Fallback to default path if PREFIX is not set
-    return "/data/data/com.thertxnetwork.andrinux/files/usr/bin/";
-}
-
 static const char *rewrite_executable(const char *filename, char *buffer, int buffer_len) {
-    char prefix_bin[PATH_BUFFER_SIZE];
-    const char *base_path = get_prefix_bin_path(prefix_bin, sizeof(prefix_bin));
+    const char *base_path = "/data/data/com.thertxnetwork.andrinux/files/usr/bin/";
     const int base_path_len = strlen(base_path);
     
     strcpy(buffer, base_path);
@@ -39,7 +25,7 @@ int execve(const char *filename, char *const *argv, char *const envp[]) {
     int fd = -1;
     const char **new_argv = NULL;
 
-    char filename_buffer[PATH_BUFFER_SIZE];
+    char filename_buffer[512];
     filename = rewrite_executable(filename, filename_buffer, sizeof(filename_buffer));
 
     // Error out if the file is not executable:
@@ -84,7 +70,7 @@ int execve(const char *filename, char *const *argv, char *const envp[]) {
         }
     }
 
-    char interp_buf[PATH_BUFFER_SIZE];
+    char interp_buf[512];
     const char *new_interpreter = rewrite_executable(interpreter, interp_buf, sizeof(interp_buf));
     if (new_interpreter == interpreter) goto final;
 
