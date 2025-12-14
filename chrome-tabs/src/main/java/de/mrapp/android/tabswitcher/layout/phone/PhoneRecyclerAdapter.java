@@ -125,6 +125,8 @@ public class PhoneRecyclerAdapter extends AbstractViewRecycler.Adapter<TabItem, 
       ViewGroup parent = viewHolder.childContainer;
       Pair<View, ?> pair = childViewRecycler.inflate(tab, parent);
       view = pair.first;
+      // Remove view from its current parent if it already has one
+      ViewUtil.removeFromParent(view);
       LayoutParams layoutParams =
         new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
       layoutParams.setMargins(model.getPaddingLeft(), model.getPaddingTop(),
